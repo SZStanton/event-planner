@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 //=== HELP CONTENT COMPONENT ===
 // Explains how to use the Event Planner App
@@ -8,13 +8,6 @@ function HelpSection() {
       <h4 className="mb-3">How to use the Event Planner</h4>
 
       <ul className="list-group list-group-flush">
-        <li className="list-group-item">
-          <strong>Register:</strong> Create an account using your name, email,
-          username, and password.
-        </li>
-        <li className="list-group-item">
-          <strong>Login:</strong> Access your dashboard with your credentials.
-        </li>
         <li className="list-group-item">
           <strong>Add Event:</strong> Create events with a name, date, time,
           location, and description.
@@ -29,6 +22,10 @@ function HelpSection() {
         <li className="list-group-item">
           <strong>Navigation:</strong> Use the top menu to move between
           Dashboard, Add Event, and Help.
+        </li>
+        <li className="list-group-item">
+          <strong>Your data:</strong> Events are saved in this browser only, so
+          they will not follow you to another device.
         </li>
       </ul>
 

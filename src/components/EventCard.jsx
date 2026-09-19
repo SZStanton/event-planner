@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 //=== EVENT CARD COMPONENT ===
 // Reusable UI component for displaying a single event
