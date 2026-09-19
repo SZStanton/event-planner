@@ -45,4 +45,3 @@ function EventCard({ event, onDelete }) {
 }
 
 export default EventCard;
-
