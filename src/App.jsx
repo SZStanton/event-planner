@@ -1,12 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
+
+import './App.css';
 
 // Context
-import { AuthProvider } from './context/AuthContext';
 import { EventsProvider } from './context/EventsContext';
 
 // Pages
-import Login from './pages/Login';
-import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AddEvent from './pages/AddEvent';
 import EditEvent from './pages/EditEvent';
@@ -14,61 +13,29 @@ import Help from './pages/Help';
 
 // Components
 import Header from './components/Header';
-import ProtectedRoute from './components/ProtectedRoute';
 
 // Main app structure + routing
 function App() {
   return (
-    <AuthProvider>
-      <EventsProvider>
-        <BrowserRouter>
-          {/* Always visible header */}
-          <Header />
+    <EventsProvider>
+      <BrowserRouter>
+        {/* Always visible header */}
+        <Header />
 
-          <div className="container py-4">
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/help" element={<Help />} />
+        <div className="container py-4">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/add" element={<AddEvent />} />
+            <Route path="/edit/:id" element={<EditEvent />} />
+            <Route path="/help" element={<Help />} />
 
-              {/*Protected Routes*/}
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/add"
-                element={
-                  <ProtectedRoute>
-                    <AddEvent />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/edit/:id"
-                element={
-                  <ProtectedRoute>
-                    <EditEvent />
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* Fallback Route */}
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </div>
-        </BrowserRouter>
-      </EventsProvider>
-    </AuthProvider>
+            {/* Replace rather than push, so back does not land here again. */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </EventsProvider>
   );
 }
 
 export default App;
-
