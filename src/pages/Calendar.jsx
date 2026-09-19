@@ -3,18 +3,9 @@ import { Link } from 'react-router';
 import ReactCalendar from 'react-calendar';
 import useEvents from '../context/useEvents';
 import EventCard from '../components/EventCard';
-import { toDateValue } from '../utils/dates';
+import { toDateValue, formatDate } from '../utils/dates';
 
 import 'react-calendar/dist/Calendar.css';
-
-// Long form date for the panel heading, in the visitor's own locale.
-const longDate = date =>
-  date.toLocaleDateString(undefined, {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
 
 //=== CALENDAR PAGE ===
 // Month view of every event, with the selected day listed alongside
@@ -63,7 +54,7 @@ function Calendar() {
 
         {/* The selected day */}
         <div className="col-12 col-lg-7">
-          <h3 className="h5 mb-3">{longDate(selected)}</h3>
+          <h3 className="h5 mb-3">{formatDate(selectedValue)}</h3>
 
           {onSelectedDay.length === 0 ? (
             <div className="alert alert-info">Nothing on this day.</div>

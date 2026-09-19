@@ -25,7 +25,8 @@ function App() {
         {/* Always visible header */}
         <Header />
 
-        <div className="container py-4">
+        {/* Each page brings its own container, so this one only frames them. */}
+        <main>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/calendar" element={<Calendar />} />
@@ -36,7 +37,7 @@ function App() {
             {/* Replace rather than push, so back does not land here again. */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </div>
+        </main>
 
         {/* Render nothing. Both report only from a Vercel deployment. */}
         <Analytics />

@@ -6,6 +6,23 @@
 .app-brand {
   font-weight: 600;
   letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+.app-brand:hover,
+.app-brand:active {
+  color: var(--accent-hover);
+}
+
+/* Drops below the links once the menu has collapsed. */
+.theme-toggle {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 992px) {
+  .theme-toggle {
+    margin-top: 0;
+  }
 }
 
 /*=== Event Form ===*/
@@ -25,12 +42,81 @@
   transform: translateY(-2px);
 }
 
+/* Recessed rather than faded, so the text keeps its contrast. */
+.event-card-past {
+  --bs-card-bg: var(--bs-tertiary-bg);
+}
+
+/* Neutral until it is reached for. */
+.event-remove {
+  --bs-btn-hover-bg: var(--remove);
+  --bs-btn-hover-border-color: var(--remove);
+  --bs-btn-hover-color: var(--remove-contrast);
+  --bs-btn-active-bg: var(--remove);
+  --bs-btn-active-border-color: var(--remove);
+  --bs-btn-active-color: var(--remove-contrast);
+}
+
 /*=== Calendar ===*/
 /* react-calendar ships a fixed 350px width, which strands it in its column. */
 .event-calendar .react-calendar {
   width: 100%;
   border: none;
+  background: transparent;
   font-family: inherit;
+  color: var(--bs-body-color);
+}
+
+/* Its palette is baked in, so each surface is mapped onto Bootstrap's own theme
+   variables, which already follow the light and dark switch.
+
+   The library's stylesheet is bundled after this one, so these win on the extra
+   class in .event-calendar rather than on order. Removing that wrapper hands
+   every rule below back to react-calendar. */
+.event-calendar .react-calendar button {
+  color: inherit;
+  border-radius: var(--bs-border-radius);
+}
+
+.event-calendar .react-calendar__navigation button:disabled {
+  background: transparent;
+  opacity: 0.5;
+}
+
+.event-calendar .react-calendar__navigation button:enabled:hover,
+.event-calendar .react-calendar__navigation button:enabled:focus,
+.event-calendar .react-calendar__navigation button:enabled:active,
+.event-calendar .react-calendar__tile:enabled:hover,
+.event-calendar .react-calendar__tile:enabled:focus,
+.event-calendar .react-calendar__tile:enabled:active {
+  background: var(--bs-secondary-bg);
+}
+
+/* Its weekday initials arrive underlined. Its weekends arrive red, which the
+   button rule above already resets to inherit. */
+.event-calendar .react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
+}
+
+/* Matches the element as well as the class, so this ties with the button rule
+   above on specificity and wins on coming later. Drop the button and the days
+   either side of the month stop dimming. */
+.event-calendar button.react-calendar__month-view__days__day--neighboringMonth {
+  color: var(--bs-secondary-color);
+}
+
+.event-calendar .react-calendar__tile--now {
+  background: var(--accent-soft);
+}
+
+/* Matches the element for the same reason as the neighbouring month rule. As a
+   plain class the button rule's color: inherit wins, which leaves body text on
+   the accent at about 2:1. */
+.event-calendar button.react-calendar__tile--active,
+.event-calendar button.react-calendar__tile--active:enabled:hover,
+.event-calendar button.react-calendar__tile--active:enabled:focus {
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
 
 /* Marks a day that has something on it. Inherits the tile's own colour. */

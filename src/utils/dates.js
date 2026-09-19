@@ -33,4 +33,21 @@ function hasPassed(event) {
   return eventDateTime(event) < new Date();
 }
 
-export { toDateValue, today, currentTime, eventDateTime, hasPassed };
+// A YYYY-MM-DD value written out for reading, in the visitor's own locale.
+function formatDate(value) {
+  return new Date(`${value}T00:00`).toLocaleDateString(undefined, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+export {
+  toDateValue,
+  today,
+  currentTime,
+  eventDateTime,
+  hasPassed,
+  formatDate,
+};
