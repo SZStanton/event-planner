@@ -74,28 +74,38 @@ npm run build    # production build into dist/
 npm run lint     # eslint across src/
 ```
 
+## Testing
+
+Vitest covers the date helpers, which is where the awkward logic lives. The
+suite is pinned to a negative UTC offset, because date handling looks correct
+from UTC+2 whether or not it is.
+
+```bash
+npm test
+```
+
 ## What I Learned
 
-- **`toISOString()` gives you the UTC date, not today's date.** Four places used
-  it to work out "today", which at UTC+2 meant that between midnight and 02:00
-  an event that had already happened passed validation. One helper now owns what
-  "today" means, and it reads local time.
+This started as a bootcamp project, and it is where a lot of React stopped being
+theory for me.
 
-- **Removing the login was a fix, not a feature cut.** The first version had
-  registration and accounts, but every account read and wrote the same storage
-  key, so any user saw and could delete everyone else's events. Dropping accounts
-  removed the bug and made the app honest about what it actually is.
+- **Shared state belongs in context.** Passing events down through every page
+  was getting messy. Moving them into a provider and reading them back through
+  my own hook meant any page could reach them, and a missing provider failed
+  with a message that said so rather than a null error three files away.
 
-- **Bootstrap bakes each button variant in at compile time.** Overriding the
-  theme colour recolours a few borders and not one button. Every variant needs
-  its own `--bs-btn-*` block, which is not obvious until you have changed the
-  colour and watched nothing happen.
+- **Build a component around its props, not the screen it sits on.** Add and
+  Edit are the same form with different starting values and a different button
+  label. One `EventForm` taking both as props beat two files drifting apart.
 
-- **Specificity beats source order, and that cuts both ways.** A general
-  `color: inherit` rule was quietly overriding the selected day's text colour in
-  the calendar, leaving it at about 2:1 contrast in both themes. It looked fine
-  in a screenshot. I only found it by reading computed values in the browser.
+- **`useState(() => load())` and `useState(load())` are not the same thing.**
+  The first reads local storage once, when the component mounts. The second
+  runs on every render. They look nearly identical and behave nothing alike.
 
-- **Contrast is a number, not an opinion.** The purple I wanted measured 4.40:1
-  against white, just under the 4.5:1 that WCAG AA asks for on normal text. A
-  slightly deeper shade takes it to 5.6:1 and looks the same to me.
+- **React Router hands you pieces, not a flow.** `useParams` to find the event
+  being edited, `useNavigate` to leave once it saves, and a route parameter
+  instead of passing an object around.
+
+- **Sort on write, not on read.** Re-sorting whenever an event is saved keeps
+  ordering out of every component that renders a list. The alternative is the
+  same logic in several places, waiting to disagree.
