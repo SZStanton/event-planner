@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { today } from '../utils/dates';
 
 //=== EVENT FORM COMPONENT ===
 // Reusable form used for both AddEvent and EditEvent pages
@@ -7,8 +8,10 @@ function EventForm({
   onSubmit,
   submitLabel = 'Save Event',
   errorMessage,
+  minDate = today(),
 }) {
-  // Local form state (controlled inputs)
+  // Local form state (controlled inputs). Reads initialValues once, so callers
+  // editing a record pass a key to remount the form when the record changes.
   const [formData, setFormData] = useState(initialValues);
 
   // Handle input changes
@@ -54,7 +57,7 @@ function EventForm({
           name="date"
           value={formData.date}
           onChange={handleChange}
-          min={new Date().toISOString().split('T')[0]}
+          min={minDate}
         />
       </div>
 

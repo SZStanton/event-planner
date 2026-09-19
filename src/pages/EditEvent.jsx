@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useState } from 'react';
+import { useNavigate, useParams, Navigate } from 'react-router';
 import useEvents from '../context/useEvents';
 import EventForm from '../components/EventForm';
+import { today } from '../utils/dates';
 
 //=== EDIT EVENT PAGE ===
 // Allows users to edit existing event
@@ -9,30 +10,33 @@ function EditEvent() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getEvent, updateEvent } = useEvents();
-
-  const event = getEvent(id);
   const [error, setError] = useState('');
 
-  // Redirect if event does not exist
-  useEffect(() => {
-    if (!event) {
-      navigate('/');
-    }
-  }, [event, navigate]);
+  const event = getEvent(id);
+
+  // Redirect declaratively, rather than rendering an empty form for one frame
+  // and then bouncing from an effect.
+  if (!event) {
+    return <Navigate to="/" replace />;
+  }
+
+  // An event that has already happened can still be corrected, but no event can
+  // be moved further into the past.
+  const earliest = event.date < today() ? event.date : today();
 
   // Handle form submission
   const handleSubmit = formData => {
     const { name, date, time, location, description } = formData;
-    const today = new Date().toISOString().split('T')[0];
 
-    if (date < today) {
-      setError('Event date cannot be in the past.');
+    // Check for empties first. An empty date sorts below every real one, so the
+    // past check would otherwise blame the wrong field.
+    if (!name || !date || !time || !location || !description) {
+      setError('Please fill in all fields.');
       return;
     }
 
-    // Basic validation
-    if (!name || !date || !time || !location || !description) {
-      setError('Please fill in all fields.');
+    if (date < earliest) {
+      setError('Event date cannot be in the past.');
       return;
     }
 
@@ -52,20 +56,21 @@ function EditEvent() {
 
       {/* Event form */}
       <EventForm
+        key={event.id}
         initialValues={{
-          name: event?.name || '',
-          date: event?.date || '',
-          time: event?.time || '',
-          location: event?.location || '',
-          description: event?.description || '',
+          name: event.name,
+          date: event.date,
+          time: event.time,
+          location: event.location,
+          description: event.description,
         }}
         onSubmit={handleSubmit}
         submitLabel="Update Event"
         errorMessage={error}
+        minDate={earliest}
       />
     </div>
   );
 }
 
 export default EditEvent;
-

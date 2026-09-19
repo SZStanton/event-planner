@@ -7,6 +7,7 @@ import { EventsProvider } from './context/EventsContext';
 
 // Pages
 import Dashboard from './pages/Dashboard';
+import Calendar from './pages/Calendar';
 import AddEvent from './pages/AddEvent';
 import EditEvent from './pages/EditEvent';
 import Help from './pages/Help';
@@ -25,6 +26,7 @@ function App() {
         <div className="container py-4">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/calendar" element={<Calendar />} />
             <Route path="/add" element={<AddEvent />} />
             <Route path="/edit/:id" element={<EditEvent />} />
             <Route path="/help" element={<Help />} />

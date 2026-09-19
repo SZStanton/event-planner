@@ -41,6 +41,11 @@ function Header() {
             </Link>
           </li>
           <li className="nav-item">
+            <Link className="nav-link" to="/calendar" onClick={close}>
+              Calendar
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link className="nav-link" to="/add" onClick={close}>
               Add Event
             </Link>
