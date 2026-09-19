@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 
+import './App.css';
+
 // Context
 import { EventsProvider } from './context/EventsContext';
 

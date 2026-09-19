@@ -1,16 +1,3 @@
-body {
-  background-color: linear-gradient(180deg, #f5f9ff 0%, #eef4ff 100%);
-}
-
-/*=== Auth Pages ===*/
-.auth-card {
-  max-width: 450px;
-}
-
-.auth-wrapper {
-  min-height: calc(100vh - 70px);
-}
-
 /*=== Navbar ===*/
 .app-navbar {
   min-height: 60px;
@@ -19,11 +6,6 @@ body {
 .app-brand {
   font-weight: 600;
   letter-spacing: 0.5px;
-}
-
-.app-user {
-  font-size: 0.9rem;
-  opacity: 0.85;
 }
 
 /*=== Event Form ===*/
@@ -37,13 +19,8 @@ body {
   transition: transform 0.2s ease;
 }
 
-.event-card:hover {
+/* A touchscreen fires active on press, never hover. */
+.event-card:hover,
+.event-card:active {
   transform: translateY(-2px);
 }
-
-/*=== Help Page ===*/
-.help-card {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
