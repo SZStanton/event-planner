@@ -4,12 +4,12 @@ import EventCard from '../components/EventCard';
 import { hasPassed } from '../utils/dates';
 
 // Shared by the upcoming and past lists.
-function EventGrid({ events, onDelete }) {
+function EventGrid({ events, onDelete, past = false }) {
   return (
     <div className="row g-3">
       {events.map(event => (
         <div className="col-12 col-md-6 col-lg-4" key={event.id}>
-          <EventCard event={event} onDelete={onDelete} />
+          <EventCard event={event} onDelete={onDelete} past={past} />
         </div>
       ))}
     </div>
@@ -56,7 +56,7 @@ function Dashboard() {
       {past.length > 0 && (
         <section>
           <h3 className="h5 mb-3">Past</h3>
-          <EventGrid events={past} onDelete={deleteEvent} />
+          <EventGrid events={past} onDelete={deleteEvent} past />
         </section>
       )}
     </div>

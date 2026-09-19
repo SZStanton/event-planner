@@ -1,5 +1,60 @@
 /* Bootstrap's reboot does the reset and the type scale, so this file holds only
-   what belongs underneath it. The palette arrives here later. */
+   what belongs underneath it. */
+
+/*=== Tokens ===
+  Every colour in the app is named here, light value first and dark below.
+  Components reference a token, never a colour. */
+/* --accent carries text, so it is the value held to a contrast ratio. The
+   portfolio's brighter purple measures 4.40:1 on white, under the 4.5:1 AA
+   needs, so it lives on as --accent-bright for tints that sit behind nothing. */
+:root {
+  --accent: #9526e8;
+  --accent-hover: #8118cc;
+  --accent-active: #6d0fb0;
+  --accent-bright: #aa3bff;
+  --accent-soft: color-mix(in srgb, var(--accent-bright) 12%, transparent);
+  --accent-contrast: #ffffff;
+  --remove: #c9303f;
+  --remove-contrast: #ffffff;
+}
+
+/* A light accent under dark text, so hover and active lighten here rather than
+   darken. Going the other way drops the hover state to 4.17:1. */
+:root[data-bs-theme='dark'] {
+  --accent: #c084fc;
+  --accent-hover: #cf9dfd;
+  --accent-active: #ddb8ff;
+  --accent-bright: #c084fc;
+  --accent-soft: color-mix(in srgb, var(--accent-bright) 18%, transparent);
+  --accent-contrast: #1a1020;
+  --remove: #ff6b7a;
+  --remove-contrast: #2a1215;
+}
+
+/* Bootstrap resolves these lazily, so one mapping covers both themes. */
+:root {
+  --bs-link-color: var(--accent);
+  --bs-link-hover-color: var(--accent-hover);
+  --bs-focus-ring-color: var(--accent-soft);
+}
+
+/* Each button variant hardcodes its colour at compile time, so overriding the
+   theme colour recolours borders and not one button. Every variant in use needs
+   its own --bs-btn-* block. */
+.btn-primary {
+  --bs-btn-bg: var(--accent);
+  --bs-btn-border-color: var(--accent);
+  --bs-btn-color: var(--accent-contrast);
+  --bs-btn-hover-bg: var(--accent-hover);
+  --bs-btn-hover-border-color: var(--accent-hover);
+  --bs-btn-hover-color: var(--accent-contrast);
+  --bs-btn-active-bg: var(--accent-active);
+  --bs-btn-active-border-color: var(--accent-active);
+  --bs-btn-active-color: var(--accent-contrast);
+  --bs-btn-disabled-bg: var(--accent);
+  --bs-btn-disabled-border-color: var(--accent);
+  --bs-btn-disabled-color: var(--accent-contrast);
+}
 
 body {
   min-height: 100svh;

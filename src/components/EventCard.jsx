@@ -1,42 +1,45 @@
 import { Link } from 'react-router';
+import { PencilSimple, Trash } from '@phosphor-icons/react';
+import { formatDate } from '../utils/dates';
 
 //=== EVENT CARD COMPONENT ===
 // Reusable UI component for displaying a single event
-function EventCard({ event, onDelete }) {
+function EventCard({ event, onDelete, past = false }) {
   return (
-    <div className="card h-100 shadow-sm event-card">
+    <div
+      className={`card h-100 shadow-sm event-card${past ? ' event-card-past' : ''}`}
+    >
       <div className="card-body d-flex flex-column">
         {/* Event title */}
         <h5 className="card-title">{event.name}</h5>
 
         {/* Event details */}
-        <p className="mb-2">
-          <strong>Date:</strong> {event.date}
-        </p>
+        <p className="text-body-secondary mb-1">{formatDate(event.date)}</p>
 
-        <p className="mb-2">
-          <strong>Time:</strong> {event.time}
-        </p>
-
-        <p className="mb-2">
-          <strong>Location:</strong> {event.location}
+        <p className="text-body-secondary mb-3">
+          {event.time} &middot; {event.location}
         </p>
 
         <p className="card-text">{event.description}</p>
 
-        {/* Action buttons */}
+        {/* Action buttons. Labelled, since the icons carry no text. */}
         <div className="mt-auto d-flex gap-2">
           {/* Edit event */}
-          <Link to={`/edit/${event.id}`} className="btn btn-warning btn-sm">
-            Edit
+          <Link
+            to={`/edit/${event.id}`}
+            className="btn btn-sm btn-outline-secondary"
+            aria-label={`Edit ${event.name}`}
+          >
+            <PencilSimple size={18} />
           </Link>
 
           {/* Delete event */}
           <button
-            className="btn btn-danger btn-sm"
+            className="btn btn-sm btn-outline-secondary event-remove"
             onClick={() => onDelete(event.id)}
+            aria-label={`Delete ${event.name}`}
           >
-            Delete
+            <Trash size={18} />
           </button>
         </div>
       </div>

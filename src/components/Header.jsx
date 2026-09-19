@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import ThemeToggle from './ThemeToggle';
 
 //=== APP HEADER ===
 // Top navigation bar shown on all pages, uses Bootstrap
@@ -11,7 +12,7 @@ function Header() {
   const close = () => setOpen(false);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark app-navbar px-3">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom app-navbar px-3">
       {/* Brand/App title */}
       <Link className="navbar-brand app-brand" to="/" onClick={close}>
         Event Planner
@@ -56,6 +57,8 @@ function Header() {
             </Link>
           </li>
         </ul>
+
+        <ThemeToggle />
       </div>
     </nav>
   );
