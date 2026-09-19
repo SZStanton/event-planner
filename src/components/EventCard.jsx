@@ -1,5 +1,4 @@
 import { Link } from 'react-router';
-import { PencilSimple, Trash } from '@phosphor-icons/react';
 import { formatDate } from '../utils/dates';
 
 //=== EVENT CARD COMPONENT ===
@@ -22,24 +21,19 @@ function EventCard({ event, onDelete, past = false }) {
 
         <p className="card-text">{event.description}</p>
 
-        {/* Action buttons. Labelled, since the icons carry no text. */}
-        <div className="mt-auto d-flex gap-2">
+        {/* Action buttons, both sized to the longer of the two labels. */}
+        <div className="mt-auto event-actions">
           {/* Edit event */}
-          <Link
-            to={`/edit/${event.id}`}
-            className="btn btn-sm btn-outline-secondary"
-            aria-label={`Edit ${event.name}`}
-          >
-            <PencilSimple size={18} />
+          <Link to={`/edit/${event.id}`} className="btn event-edit">
+            Edit
           </Link>
 
           {/* Delete event */}
           <button
-            className="btn btn-sm btn-outline-secondary event-remove"
+            className="btn event-remove"
             onClick={() => onDelete(event.id)}
-            aria-label={`Delete ${event.name}`}
           >
-            <Trash size={18} />
+            Delete
           </button>
         </div>
       </div>

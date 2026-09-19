@@ -1,21 +1,31 @@
 /* Bootstrap's reboot does the reset and the type scale, so this file holds only
    what belongs underneath it. */
 
-/*=== Tokens ===
-  Every colour in the app is named here, light value first and dark below.
-  Components reference a token, never a colour. */
-/* --accent carries text, so it is the value held to a contrast ratio. The
-   portfolio's brighter purple measures 4.40:1 on white, under the 4.5:1 AA
-   needs, so it lives on as --accent-bright for tints that sit behind nothing. */
+/*=== Tokens ===*/
+
+/* Light values here, dark below. Components name a token, never a colour.
+   --accent carries text, so the brighter purple lives on as --accent-bright. */
 :root {
-  --accent: #9526e8;
-  --accent-hover: #8118cc;
-  --accent-active: #6d0fb0;
-  --accent-bright: #aa3bff;
+  --accent: #9044ca;
+  --accent-hover: #7d34b0;
+  --accent-active: #682c98;
+  --accent-bright: #a05ce8;
   --accent-soft: color-mix(in srgb, var(--accent-bright) 12%, transparent);
   --accent-contrast: #ffffff;
-  --remove: #c9303f;
+
+  --edit: #af491f;
+  --edit-contrast: #ffffff;
+
+  --remove: #b14853;
+  --remove-hover: #944048;
+  --remove-active: #7e3c43;
   --remove-contrast: #ffffff;
+
+  /* Repeated as a triplet because Bootstrap's .bg-* classes read --bs-*-rgb,
+     not the hex variable its components read. */
+  --page: #f8f5ee;
+  --page-sunk: #efeadf;
+  --page-sunk-rgb: 239, 234, 223;
 }
 
 /* A light accent under dark text, so hover and active lighten here rather than
@@ -27,20 +37,34 @@
   --accent-bright: #c084fc;
   --accent-soft: color-mix(in srgb, var(--accent-bright) 18%, transparent);
   --accent-contrast: #1a1020;
+
+  --edit: #fb923c;
+  --edit-contrast: #2a1a10;
+
   --remove: #ff6b7a;
+  --remove-hover: #ff8b96;
+  --remove-active: #ffa8b0;
   --remove-contrast: #2a1215;
+
+  /* Bootstrap's own dark surfaces. The warming is a light theme idea only. */
+  --page: #212529;
+  --page-sunk: #2b3035;
+  --page-sunk-rgb: 43, 48, 53;
 }
 
-/* Bootstrap resolves these lazily, so one mapping covers both themes. */
+/* Resolved lazily, so one mapping covers both themes. Cards and the navbar read
+   the surface variables, so warming those warms everything on the page. */
 :root {
   --bs-link-color: var(--accent);
   --bs-link-hover-color: var(--accent-hover);
   --bs-focus-ring-color: var(--accent-soft);
+  --bs-body-bg: var(--page);
+  --bs-tertiary-bg: var(--page-sunk);
+  --bs-tertiary-bg-rgb: var(--page-sunk-rgb);
 }
 
-/* Each button variant hardcodes its colour at compile time, so overriding the
-   theme colour recolours borders and not one button. Every variant in use needs
-   its own --bs-btn-* block. */
+/* Each variant hardcodes its colour at compile time, so the theme colour alone
+   recolours borders and not one button. Every variant needs its own block. */
 .btn-primary {
   --bs-btn-bg: var(--accent);
   --bs-btn-border-color: var(--accent);
@@ -54,6 +78,41 @@
   --bs-btn-disabled-bg: var(--accent);
   --bs-btn-disabled-border-color: var(--accent);
   --bs-btn-disabled-color: var(--accent-contrast);
+}
+
+/* Sized under the card's body text, so these read as controls rather than
+   competing with the event. */
+.event-edit,
+.event-remove {
+  --bs-btn-font-size: 0.95rem;
+  --bs-btn-padding-y: 0.3rem;
+  --bs-btn-padding-x: 0.75rem;
+}
+
+/* Outlined until reached for. Plain .btn already carries a transparent border. */
+.event-edit {
+  --bs-btn-color: var(--edit);
+  --bs-btn-border-color: var(--edit);
+  --bs-btn-bg: transparent;
+  --bs-btn-hover-bg: var(--edit);
+  --bs-btn-hover-border-color: var(--edit);
+  --bs-btn-hover-color: var(--edit-contrast);
+  --bs-btn-active-bg: var(--edit);
+  --bs-btn-active-border-color: var(--edit);
+  --bs-btn-active-color: var(--edit-contrast);
+}
+
+/* Delete, filled, since it is the one action that cannot be undone. */
+.event-remove {
+  --bs-btn-bg: var(--remove);
+  --bs-btn-border-color: var(--remove);
+  --bs-btn-color: var(--remove-contrast);
+  --bs-btn-hover-bg: var(--remove-hover);
+  --bs-btn-hover-border-color: var(--remove-hover);
+  --bs-btn-hover-color: var(--remove-contrast);
+  --bs-btn-active-bg: var(--remove-active);
+  --bs-btn-active-border-color: var(--remove-active);
+  --bs-btn-active-color: var(--remove-contrast);
 }
 
 body {

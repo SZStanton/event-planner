@@ -1,8 +1,5 @@
-// Date helpers for the app. Everything here works in local time.
-//
-// toISOString() returns the UTC date, which is a day behind local time for part
-// of every evening east of Greenwich. Using it for "today" lets an event that
-// has already passed slip through validation.
+// Date helpers, all in local time. toISOString() gives the UTC date, which runs
+// a day behind local for part of every evening and lets past events validate.
 
 const pad = value => String(value).padStart(2, '0');
 

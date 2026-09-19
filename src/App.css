@@ -42,19 +42,18 @@
   transform: translateY(-2px);
 }
 
+/* Equal columns at max-content, so both buttons take the width of the longer
+   label rather than stretching to the card. */
+.event-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  width: max-content;
+}
+
 /* Recessed rather than faded, so the text keeps its contrast. */
 .event-card-past {
   --bs-card-bg: var(--bs-tertiary-bg);
-}
-
-/* Neutral until it is reached for. */
-.event-remove {
-  --bs-btn-hover-bg: var(--remove);
-  --bs-btn-hover-border-color: var(--remove);
-  --bs-btn-hover-color: var(--remove-contrast);
-  --bs-btn-active-bg: var(--remove);
-  --bs-btn-active-border-color: var(--remove);
-  --bs-btn-active-color: var(--remove-contrast);
 }
 
 /*=== Calendar ===*/
@@ -67,12 +66,8 @@
   color: var(--bs-body-color);
 }
 
-/* Its palette is baked in, so each surface is mapped onto Bootstrap's own theme
-   variables, which already follow the light and dark switch.
-
-   The library's stylesheet is bundled after this one, so these win on the extra
-   class in .event-calendar rather than on order. Removing that wrapper hands
-   every rule below back to react-calendar. */
+/* Its palette is baked in, so surfaces map onto Bootstrap's theme variables.
+   These win on the .event-calendar class, not order. Drop it and they all revert. */
 .event-calendar .react-calendar button {
   color: inherit;
   border-radius: var(--bs-border-radius);
@@ -92,15 +87,13 @@
   background: var(--bs-secondary-bg);
 }
 
-/* Its weekday initials arrive underlined. Its weekends arrive red, which the
-   button rule above already resets to inherit. */
+/* Weekday initials arrive underlined, weekends red. The button rule resets both. */
 .event-calendar .react-calendar__month-view__weekdays__weekday abbr {
   text-decoration: none;
 }
 
-/* Matches the element as well as the class, so this ties with the button rule
-   above on specificity and wins on coming later. Drop the button and the days
-   either side of the month stop dimming. */
+/* Matches the element too, to outrank the button rule above. Without it these
+   days stop dimming. */
 .event-calendar button.react-calendar__month-view__days__day--neighboringMonth {
   color: var(--bs-secondary-color);
 }
@@ -109,9 +102,7 @@
   background: var(--accent-soft);
 }
 
-/* Matches the element for the same reason as the neighbouring month rule. As a
-   plain class the button rule's color: inherit wins, which leaves body text on
-   the accent at about 2:1. */
+/* Same reason. As a plain class, color: inherit wins and drops this to 2:1. */
 .event-calendar button.react-calendar__tile--active,
 .event-calendar button.react-calendar__tile--active:enabled:hover,
 .event-calendar button.react-calendar__tile--active:enabled:focus {
