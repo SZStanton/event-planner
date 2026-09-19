@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { eventDateTime } from '../utils/dates';
 
 //=== EVENTS CONTEXT ===
 // Creating the events context
@@ -12,6 +13,12 @@ const EventsContext = createContext(null);
 
 // Local storage key for events
 const EVENTS_KEY = 'planner-events';
+
+// randomUUID is secure-context only, so it is missing when the dev server is
+// reached over a LAN IP on plain http.
+const newId = () =>
+  crypto.randomUUID?.() ??
+  `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 
 // Load saved events from local storage
 const loadEvents = () => {
@@ -24,12 +31,7 @@ const loadEvents = () => {
 
 // Sort events by date and time
 const sortEvents = list =>
-  [...list].sort((left, right) => {
-    const leftDate = new Date(`${left.date}T${left.time || '00:00'}`);
-    const rightDate = new Date(`${right.date}T${right.time || '00:00'}`);
-
-    return leftDate - rightDate;
-  });
+  [...list].sort((left, right) => eventDateTime(left) - eventDateTime(right));
 
 //=== EVENTS PROVIDER ===
 function EventsProvider({ children }) {
@@ -38,14 +40,19 @@ function EventsProvider({ children }) {
 
   // Save events whenever state changes
   useEffect(() => {
-    localStorage.setItem(EVENTS_KEY, JSON.stringify(items));
+    try {
+      localStorage.setItem(EVENTS_KEY, JSON.stringify(items));
+    } catch {
+      // A full or blocked quota must not take the app down with it. The list
+      // still works for this visit, it just will not survive a reload.
+    }
   }, [items]);
 
   //=== EVENT FUNCTIONS ===
   // Add a new event
   const addEvent = useCallback(eventData => {
     const nextEvent = {
-      id: crypto.randomUUID(),
+      id: newId(),
       name: eventData.name.trim(),
       date: eventData.date,
       time: eventData.time,
