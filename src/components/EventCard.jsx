@@ -1,9 +1,12 @@
 import { Link } from 'react-router';
-import { formatDate } from '../utils/dates';
+import { formatDate, hasPassed } from '../utils/dates';
 
 //=== EVENT CARD COMPONENT ===
 // Reusable UI component for displaying a single event
-function EventCard({ event, onDelete, past = false }) {
+function EventCard({ event, onDelete }) {
+  // A fact about the event, so every list that renders a card gets it.
+  const past = hasPassed(event);
+
   return (
     <div
       className={`card h-100 shadow-sm event-card${past ? ' event-card-past' : ''}`}

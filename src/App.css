@@ -14,17 +14,6 @@
   color: var(--accent-hover);
 }
 
-/* Drops below the links once the menu has collapsed. */
-.theme-toggle {
-  margin-top: 0.5rem;
-}
-
-@media (min-width: 992px) {
-  .theme-toggle {
-    margin-top: 0;
-  }
-}
-
 /*=== Event Form ===*/
 .event-form {
   max-width: 700px;
@@ -67,10 +56,16 @@
 }
 
 /* Its palette is baked in, so surfaces map onto Bootstrap's theme variables.
-   These win on the .event-calendar class, not order. Drop it and they all revert. */
+   These win on the .event-calendar class, not on order. */
 .event-calendar .react-calendar button {
-  color: inherit;
   border-radius: var(--bs-border-radius);
+}
+
+/* Only the nav, which takes the browser's button colour, and the day tiles,
+   which arrive with a red baked into weekends. */
+.event-calendar .react-calendar__navigation button,
+.event-calendar .react-calendar__month-view__days__day {
+  color: inherit;
 }
 
 .event-calendar .react-calendar__navigation button:disabled {
@@ -87,14 +82,12 @@
   background: var(--bs-secondary-bg);
 }
 
-/* Weekday initials arrive underlined, weekends red. The button rule resets both. */
+/* Weekday initials arrive underlined. */
 .event-calendar .react-calendar__month-view__weekdays__weekday abbr {
   text-decoration: none;
 }
 
-/* Matches the element too, to outrank the button rule above. Without it these
-   days stop dimming. */
-.event-calendar button.react-calendar__month-view__days__day--neighboringMonth {
+.event-calendar .react-calendar__month-view__days__day--neighboringMonth {
   color: var(--bs-secondary-color);
 }
 
@@ -102,10 +95,9 @@
   background: var(--accent-soft);
 }
 
-/* Same reason. As a plain class, color: inherit wins and drops this to 2:1. */
-.event-calendar button.react-calendar__tile--active,
-.event-calendar button.react-calendar__tile--active:enabled:hover,
-.event-calendar button.react-calendar__tile--active:enabled:focus {
+.event-calendar .react-calendar__tile--active,
+.event-calendar .react-calendar__tile--active:enabled:hover,
+.event-calendar .react-calendar__tile--active:enabled:focus {
   background: var(--accent);
   color: var(--accent-contrast);
 }
