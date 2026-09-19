@@ -21,11 +21,12 @@
   --remove-active: #7e3c43;
   --remove-contrast: #ffffff;
 
-  /* Repeated as a triplet because Bootstrap's .bg-* classes read --bs-*-rgb,
-     not the hex variable its components read. */
-  --page: #f8f5ee;
-  --page-sunk: #efeadf;
+  /* Held as a triplet because Bootstrap's .bg-* classes read --bs-*-rgb while
+     its components read the hex. Deriving one from the other keeps them level. */
+  --page-rgb: 248, 245, 238;
+  --page: rgb(var(--page-rgb));
   --page-sunk-rgb: 239, 234, 223;
+  --page-sunk: rgb(var(--page-sunk-rgb));
 }
 
 /* A light accent under dark text, so hover and active lighten here rather than
@@ -34,7 +35,7 @@
   --accent: #c084fc;
   --accent-hover: #cf9dfd;
   --accent-active: #ddb8ff;
-  --accent-bright: #c084fc;
+  --accent-bright: var(--accent);
   --accent-soft: color-mix(in srgb, var(--accent-bright) 18%, transparent);
   --accent-contrast: #1a1020;
 
@@ -47,9 +48,10 @@
   --remove-contrast: #2a1215;
 
   /* Bootstrap's own dark surfaces. The warming is a light theme idea only. */
-  --page: #212529;
-  --page-sunk: #2b3035;
+  --page-rgb: 33, 37, 41;
+  --page: rgb(var(--page-rgb));
   --page-sunk-rgb: 43, 48, 53;
+  --page-sunk: rgb(var(--page-sunk-rgb));
 }
 
 /* Resolved lazily, so one mapping covers both themes. Cards and the navbar read
@@ -59,6 +61,7 @@
   --bs-link-hover-color: var(--accent-hover);
   --bs-focus-ring-color: var(--accent-soft);
   --bs-body-bg: var(--page);
+  --bs-body-bg-rgb: var(--page-rgb);
   --bs-tertiary-bg: var(--page-sunk);
   --bs-tertiary-bg-rgb: var(--page-sunk-rgb);
 }
@@ -93,7 +96,6 @@
 .event-edit {
   --bs-btn-color: var(--edit);
   --bs-btn-border-color: var(--edit);
-  --bs-btn-bg: transparent;
   --bs-btn-hover-bg: var(--edit);
   --bs-btn-hover-border-color: var(--edit);
   --bs-btn-hover-color: var(--edit-contrast);
@@ -113,8 +115,4 @@
   --bs-btn-active-bg: var(--remove-active);
   --bs-btn-active-border-color: var(--remove-active);
   --bs-btn-active-color: var(--remove-contrast);
-}
-
-body {
-  min-height: 100svh;
 }
