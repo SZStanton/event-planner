@@ -25,8 +25,8 @@ function App() {
         {/* Always visible header */}
         <Header />
 
-        {/* Each page brings its own container, so this one only frames them. */}
-        <main>
+        {/* Every page wanted the same container, so it lives here once. */}
+        <main className="container py-4">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/calendar" element={<Calendar />} />

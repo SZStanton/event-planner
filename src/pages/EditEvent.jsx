@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useNavigate, useParams, Navigate } from 'react-router';
 import useEvents from '../context/useEvents';
 import EventForm from '../components/EventForm';
+import PageHeading from '../components/PageHeading';
 import { today } from '../utils/dates';
+import validateEvent from '../utils/validateEvent';
 
 //=== EDIT EVENT PAGE ===
 // Allows users to edit existing event
@@ -22,21 +24,15 @@ function EditEvent() {
 
   // An event that has already happened can still be corrected, but no event can
   // be moved further into the past.
-  const earliest = event.date < today() ? event.date : today();
+  const todayValue = today();
+  const earliest = event.date < todayValue ? event.date : todayValue;
 
   // Handle form submission
   const handleSubmit = formData => {
-    const { name, date, time, location, description } = formData;
+    const message = validateEvent(formData, earliest);
 
-    // Check for empties first. An empty date sorts below every real one, so the
-    // past check would otherwise blame the wrong field.
-    if (!name || !date || !time || !location || !description) {
-      setError('Please fill in all fields.');
-      return;
-    }
-
-    if (date < earliest) {
-      setError('Event date cannot be in the past.');
+    if (message) {
+      setError(message);
       return;
     }
 
@@ -47,14 +43,9 @@ function EditEvent() {
   };
 
   return (
-    <div className="container py-4">
-      {/* Page heading */}
-      <div className="mb-4">
-        <h2>Edit Event</h2>
-        <p className="text-muted mb-0">Update your existing event</p>
-      </div>
+    <>
+      <PageHeading title="Edit Event" subtitle="Update your existing event" />
 
-      {/* Event form */}
       <EventForm
         key={event.id}
         initialValues={{
@@ -69,7 +60,7 @@ function EditEvent() {
         errorMessage={error}
         minDate={earliest}
       />
-    </div>
+    </>
   );
 }
 

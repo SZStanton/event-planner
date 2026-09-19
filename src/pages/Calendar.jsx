@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import ReactCalendar from 'react-calendar';
 import useEvents from '../context/useEvents';
-import EventCard from '../components/EventCard';
+import EventGrid from '../components/EventGrid';
+import PageHeading from '../components/PageHeading';
 import { toDateValue, formatDate } from '../utils/dates';
 
 import 'react-calendar/dist/Calendar.css';
@@ -27,18 +28,16 @@ function Calendar() {
     ) : null;
 
   return (
-    <div className="container py-4">
-      {/* Page heading */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2 className="mb-1">Calendar</h2>
-          <p className="text-muted mb-0">Pick a day to see what is on</p>
-        </div>
-
-        <Link to="/add" className="btn btn-primary">
-          Add Event
-        </Link>
-      </div>
+    <>
+      <PageHeading
+        title="Calendar"
+        subtitle="Pick a day to see what is on"
+        action={
+          <Link to="/add" className="btn btn-primary">
+            Add Event
+          </Link>
+        }
+      />
 
       <div className="row g-4">
         {/* Month grid */}
@@ -59,17 +58,15 @@ function Calendar() {
           {onSelectedDay.length === 0 ? (
             <div className="alert alert-info">Nothing on this day.</div>
           ) : (
-            <div className="row g-3">
-              {onSelectedDay.map(event => (
-                <div className="col-12 col-xl-6" key={event.id}>
-                  <EventCard event={event} onDelete={deleteEvent} />
-                </div>
-              ))}
-            </div>
+            <EventGrid
+              events={onSelectedDay}
+              onDelete={deleteEvent}
+              columns="col-12 col-xl-6"
+            />
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

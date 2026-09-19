@@ -3,21 +3,12 @@ import { Sun, Moon } from '@phosphor-icons/react';
 
 const STORAGE_KEY = 'planner-theme';
 
-// Mirrors the inline script in index.html, which sets the theme before paint.
-const initialTheme = () => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === 'light' || stored === 'dark') {
-      return stored;
-    }
-  } catch {
-    // Private browsing can refuse storage. Fall back to the OS preference.
-  }
-
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
+// The inline script in index.html resolves the theme before paint, so read its
+// answer rather than deriving it a second time and risking the two disagreeing.
+const initialTheme = () =>
+  document.documentElement.getAttribute('data-bs-theme') === 'dark'
     ? 'dark'
     : 'light';
-};
 
 //=== THEME TOGGLE ===
 // Switches Bootstrap between its light and dark themes, and remembers the choice
@@ -39,7 +30,7 @@ function ThemeToggle() {
   return (
     <button
       type="button"
-      className="btn btn-sm btn-outline-secondary theme-toggle"
+      className="btn btn-sm btn-outline-secondary mt-2 mt-lg-0"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
     >
