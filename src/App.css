@@ -24,3 +24,21 @@
 .event-card:active {
   transform: translateY(-2px);
 }
+
+/*=== Calendar ===*/
+/* react-calendar ships a fixed 350px width, which strands it in its column. */
+.event-calendar .react-calendar {
+  width: 100%;
+  border: none;
+  font-family: inherit;
+}
+
+/* Marks a day that has something on it. Inherits the tile's own colour. */
+.calendar-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: 2px auto 0;
+  border-radius: 50%;
+  background: currentColor;
+}
