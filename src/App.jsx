@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import './App.css';
 
@@ -35,6 +37,10 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
+
+        {/* Render nothing. Both report only from a Vercel deployment. */}
+        <Analytics />
+        <SpeedInsights />
       </BrowserRouter>
     </EventsProvider>
   );

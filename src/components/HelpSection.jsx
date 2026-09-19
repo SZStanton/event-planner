@@ -39,4 +39,3 @@ function HelpSection() {
 }
 
 export default HelpSection;
-

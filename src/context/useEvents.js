@@ -12,4 +12,3 @@ function useEvents() {
 }
 
 export default useEvents;
-

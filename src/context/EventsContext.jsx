@@ -6,7 +6,6 @@ import {
   useState,
 } from 'react';
 
-
 //=== EVENTS CONTEXT ===
 // Creating the events context
 const EventsContext = createContext(null);
@@ -106,5 +105,3 @@ function EventsProvider({ children }) {
 }
 
 export { EventsContext, EventsProvider };
-
-
