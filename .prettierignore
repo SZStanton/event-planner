@@ -1,0 +1,6 @@
+dist
+dist-ssr
+build
+coverage
+node_modules
+package-lock.json

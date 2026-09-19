@@ -1,0 +1,31 @@
+# Add this BEFORE running Prettier for the first time. On Windows the working
+# tree is CRLF and Prettier wants LF, so without this every file looks rewritten.
+* text=auto eol=lf
+
+# Binary, never touch these
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.svg text eol=lf
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.mp4 binary
+*.zip binary
+
+# Generated. Collapses them in diffs so they stop drowning pull requests
+package-lock.json linguist-generated=true -diff
+pnpm-lock.yaml linguist-generated=true -diff
+yarn.lock linguist-generated=true -diff
+
+# Shell scripts must stay LF or they will not run
+*.sh text eol=lf
+
+# Windows batch files must stay CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
