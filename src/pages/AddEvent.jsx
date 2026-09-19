@@ -2,15 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import useEvents from '../context/useEvents';
 import EventForm from '../components/EventForm';
-
-// Default date and time based on current time
-const getTodayDate = () => {
-  return new Date().toISOString().split('T')[0];
-};
-const getCurrentTime = () => {
-  const now = new Date();
-  return now.toTimeString().slice(0, 5); // HH;MM format
-};
+import { today, currentTime } from '../utils/dates';
 
 //=== ADD EVENT PAGE ===
 // Allows users to create a new event
@@ -22,16 +14,16 @@ function AddEvent() {
   // Handle form submit
   const handleSubmit = formData => {
     const { name, date, time, location, description } = formData;
-    const today = new Date().toISOString().split('T')[0];
 
-    if (date < today) {
-      setError('Event date cannot be in the past.');
+    // Check for empties first. An empty date sorts below every real one, so the
+    // past check would otherwise blame the wrong field.
+    if (!name || !date || !time || !location || !description) {
+      setError('Please fill in all fields.');
       return;
     }
 
-    // Basic validation
-    if (!name || !date || !time || !location || !description) {
-      setError('Please fill in all fields.');
+    if (date < today()) {
+      setError('Event date cannot be in the past.');
       return;
     }
 
@@ -54,8 +46,8 @@ function AddEvent() {
       <EventForm
         initialValues={{
           name: '',
-          date: getTodayDate(),
-          time: getCurrentTime(),
+          date: today(),
+          time: currentTime(),
           location: '',
           description: '',
         }}
@@ -68,4 +60,3 @@ function AddEvent() {
 }
 
 export default AddEvent;
-
